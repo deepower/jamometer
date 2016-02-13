@@ -14,7 +14,6 @@ max.get({
 })
 .once('value', function(val) {
   console.log('Clip name: ' + val);
-  process.exit();
 });
 
 // Count clips
@@ -29,4 +28,13 @@ max.count({
     // getClipName call should go here
     clipNames.push();
   }
+});
+
+// Fire the callback with the updated position of the clip (if it's playing).
+max.observe({
+  path: 'live_set tracks 1 clip_slots 0 clip',
+  property: 'playing_position'
+})
+.on('value', function(val) {
+  console.log('Playing position: ' + val);
 });
