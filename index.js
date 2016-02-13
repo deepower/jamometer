@@ -26,8 +26,8 @@ max.count({
   console.log(count + ' clips');
   clipsLength = count;
   for (var i = 0; i < clipsLength; i++) {
-    // getClipName call should go here
-    clipNames.push();
+    // WIP getClipName call should go here
+    clipNames[i] = undefined;
   }
 });
 
