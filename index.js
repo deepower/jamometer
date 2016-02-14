@@ -10,25 +10,28 @@ var clipNames = [];
 var clipPlayingPosition;
 var liveTrackID = 1;
 
-// Get clip name in track 1
-// Let's call this function getClipName
-max.promise().get({
-  path: 'live_set tracks 1 clip_slots 0 clip',
-  property: 'name'
-})
-.then(function(val) {
-  console.log('Clip name: ' + val);
-});
+function getClipName(clipId) {
+  var pathLive = 'live_set tracks '+liveTrackID+' clip_slots '+clipId+' clip';
+  return max.promise().get({
+    path: pathLive,
+    property: 'name'
+  })
+}
+
+getClipName(1)
+  .then(function(val) {
+    console.log('Clip! name: ' + val);
+  });
 
 // Lets try to use Promises
 let readClipsName = new Promise((resolve, reject) => {
   console.log('lets read clips');
-  var livePaths = [];
 
-  // clipsLength is undefined, this Promise should go then() count is finished
+  var livePaths = [];
   for (var i = 0; i < clipsLength; i++) {
     livePaths[i] = 'live_set tracks '+liveTrackID+' clip_slots '+i+' clip';
   }
+  console.log('clipsLength='+clipsLength);
   resolve(livePaths);
 });
 
@@ -42,7 +45,7 @@ max.promise().count({
   clipsLength = count;
   readClipsName.then(
     result => {
-      console.log('hurray!');
+      console.log('readClipsName finished!');
     }
   );
 });
