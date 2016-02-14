@@ -25,10 +25,6 @@ max.promise().count({
 .then(function(count) {
   console.log(count + ' clips');
   clipsLength = count;
-  for (var i = 0; i < clipsLength; i++) {
-    // WIP getClipName call should go here
-    clipNames[i] = undefined;
-  }
 });
 
 // Fire the callback with the updated position of the clip (if it's playing).
