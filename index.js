@@ -8,30 +8,32 @@ max.bind();
 var liveTrackID = 1;
 
 function getClipName(clipId) {
-  let pathLive = 'live_set tracks '+liveTrackID+' clip_slots '+clipId+' clip';
   return max.promise().get({
-    path: pathLive,
+    path: 'live_set tracks '+liveTrackID+' clip_slots '+clipId+' clip',
     property: 'name'
   })
 }
 
-// Count clips
-max.promise().count({
-  path: 'live_set tracks '+liveTrackID,
-  property: 'clip_slots'
-})
-.then(function(clipsLength) {
-  let clipNums = [];
-  for (let i = 0; i < clipsLength; i++) {
-    clipNums.push(i);
-  }
+function getClipsCount(trackId) {
+  return max.promise().count({
+    path: 'live_set tracks '+liveTrackID,
+    property: 'clip_slots'
+  })
+}
 
-  // Let's get all names of clips
-  Promise.all(clipNums.map(getClipName))
-    .then(clipNames => {
-      console.log('clipNames='+clipNames);
-    });
-});
+getClipsCount(liveTrackID)
+  .then(function(clipsLength) {
+    let clipNums = [];
+    for (let i = 0; i < clipsLength; i++) {
+      clipNums.push(i);
+    }
+
+    // Let's get all names of clips
+    Promise.all(clipNums.map(getClipName))
+      .then(clipNames => {
+        console.log('clipNames='+clipNames);
+      });
+  });
 
 // Load the http module to create an http server.
 var http = require('http');
