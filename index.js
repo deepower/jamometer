@@ -8,6 +8,7 @@ max.bind();
 var clipsLength;
 var clipNames = [];
 var clipPlayingPosition;
+var liveTrackID = 1;
 
 // Get clip name in track 1
 // Let's call this function getClipName
@@ -22,7 +23,13 @@ max.promise().get({
 // Lets try to use Promises
 let readClipsName = new Promise((resolve, reject) => {
   console.log('lets read clips');
-  resolve('result');
+  var livePaths = [];
+
+  // clipsLength is undefined, this Promise should go then() count is finished
+  for (var i = 0; i < clipsLength; i++) {
+    livePaths[i] = 'live_set tracks '+liveTrackID+' clip_slots '+i+' clip';
+  }
+  resolve(livePaths);
 });
 
 // Count clips
