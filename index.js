@@ -7,6 +7,18 @@ max.bind();
 
 var liveTrackID = 1;
 
+function getTracksCount() {
+  return max.promise().count({
+    path: 'live_set',
+    property: 'tracks'
+  })
+}
+
+getTracksCount()
+  .then(function(tracksCount) {
+    console.log('tracks='+tracksCount);
+  });
+
 function getClipName(clipId) {
   return max.promise().get({
     path: 'live_set tracks '+liveTrackID+' clip_slots '+clipId+' clip',
