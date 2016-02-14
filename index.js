@@ -5,7 +5,7 @@ var Max4Node = require('max4node');
 var max = new Max4Node();
 max.bind();
 
-var liveTrackID = 1;
+var liveTrackID;
 const jamometerTrack = 'Jamometer';
 
 function getTrackName(trackId) {
@@ -32,14 +32,25 @@ getTracksCount()
     // Let's get all names of clips
     Promise.all(trackNums.map(getTrackName))
       .then(trackNames => {
-        console.log('trackNames='+trackNames);
         for (var i = 0; i < trackNames.length; i++) {
           if (trackNames[i] == jamometerTrack) {
             liveTrackID = i;
           }
         }
-        console.log(liveTrackID);
-        // 2DO: rewrite promises to go from here
+      }).then(result => {
+        getClipsCount(liveTrackID)
+          .then(function(clipsLength) {
+            let clipNums = [];
+            for (let i = 0; i < clipsLength; i++) {
+              clipNums.push(i);
+            }
+
+            // Let's get all names of clips
+            Promise.all(clipNums.map(getClipName))
+              .then(clipNames => {
+                console.log('clipNames='+clipNames);
+              });
+          });
       });
   });
 
@@ -56,21 +67,6 @@ function getClipsCount(trackId) {
     property: 'clip_slots'
   })
 }
-
-// 2DO: rewrite promises to go up inside TrackCount
-getClipsCount(liveTrackID)
-  .then(function(clipsLength) {
-    let clipNums = [];
-    for (let i = 0; i < clipsLength; i++) {
-      clipNums.push(i);
-    }
-
-    // Let's get all names of clips
-    Promise.all(clipNums.map(getClipName))
-      .then(clipNames => {
-        console.log('clipNames='+clipNames);
-      });
-  });
 
 // Load the http module to create an http server.
 var http = require('http');
