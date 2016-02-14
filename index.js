@@ -9,20 +9,20 @@ var clipPlayingPosition;
 
 // Get clip name in track 1
 // Let's call this function getClipName
-max.get({
+max.promise().get({
   path: 'live_set tracks 1 clip_slots 0 clip',
   property: 'name'
 })
-.once('value', function(val) {
+.then(function(val) {
   console.log('Clip name: ' + val);
 });
 
 // Count clips
-max.count({
+max.promise().count({
   path: 'live_set tracks 1',
   property: 'clip_slots'
 })
-.once('value', function(count) {
+.then(function(count) {
   console.log(count + ' clips');
   clipsLength = count;
   for (var i = 0; i < clipsLength; i++) {
