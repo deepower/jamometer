@@ -1,3 +1,5 @@
+'use strict';
+
 var Max4Node = require('max4node');
 
 var max = new Max4Node();
@@ -17,6 +19,12 @@ max.promise().get({
   console.log('Clip name: ' + val);
 });
 
+// Lets try to use Promises
+let readClipsName = new Promise((resolve, reject) => {
+  console.log('lets read clips');
+  resolve('result');
+});
+
 // Count clips
 max.promise().count({
   path: 'live_set tracks 1',
@@ -25,6 +33,11 @@ max.promise().count({
 .then(function(count) {
   console.log(count + ' clips');
   clipsLength = count;
+  readClipsName.then(
+    result => {
+      console.log('hurray!');
+    }
+  );
 });
 
 // Fire the callback with the updated position of the clip (if it's playing).
