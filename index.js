@@ -37,19 +37,18 @@ getTracksCount()
             liveTrackID = i;
           }
         }
-      }).then(result => {
-        getClipsCount(liveTrackID)
-          .then(function(clipsLength) {
-            let clipNums = [];
-            for (let i = 0; i < clipsLength; i++) {
-              clipNums.push(i);
-            }
+      })
+      .then(getClipsCount)
+      .then(function(clipsLength) {
+        let clipNums = [];
+        for (let i = 0; i < clipsLength; i++) {
+          clipNums.push(i);
+        }
 
-            // Let's get all names of clips
-            Promise.all(clipNums.map(getClipName))
-              .then(clipNames => {
-                console.log('clipNames='+clipNames);
-              });
+        // Let's get all names of clips
+        Promise.all(clipNums.map(getClipName))
+          .then(clipNames => {
+            console.log('clipNames='+clipNames);
           });
       });
   });
