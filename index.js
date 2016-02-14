@@ -5,58 +5,32 @@ var Max4Node = require('max4node');
 var max = new Max4Node();
 max.bind();
 
-var clipsLength;
-var clipNames = [];
-var clipPlayingPosition;
 var liveTrackID = 1;
 
 function getClipName(clipId) {
-  var pathLive = 'live_set tracks '+liveTrackID+' clip_slots '+clipId+' clip';
+  let pathLive = 'live_set tracks '+liveTrackID+' clip_slots '+clipId+' clip';
   return max.promise().get({
     path: pathLive,
     property: 'name'
   })
 }
 
-getClipName(1)
-  .then(function(val) {
-    console.log('Clip! name: ' + val);
-  });
-
-// Lets try to use Promises
-let readClipsName = new Promise((resolve, reject) => {
-  console.log('lets read clips');
-
-  var livePaths = [];
-  for (var i = 0; i < clipsLength; i++) {
-    livePaths[i] = 'live_set tracks '+liveTrackID+' clip_slots '+i+' clip';
-  }
-  console.log('clipsLength='+clipsLength);
-  resolve(livePaths);
-});
-
 // Count clips
 max.promise().count({
-  path: 'live_set tracks 1',
+  path: 'live_set tracks '+liveTrackID,
   property: 'clip_slots'
 })
-.then(function(count) {
-  console.log(count + ' clips');
-  clipsLength = count;
-  readClipsName.then(
-    result => {
-      console.log('readClipsName finished!');
-    }
-  );
-});
+.then(function(clipsLength) {
+  let clipNums = [];
+  for (let i = 0; i < clipsLength; i++) {
+    clipNums.push(i);
+  }
 
-// Fire the callback with the updated position of the clip (if it's playing).
-max.observe({
-  path: 'live_set tracks 1 clip_slots 0 clip',
-  property: 'playing_position'
-})
-.on('value', function(val) {
-  clipPlayingPosition = val;
+  // Let's get all names of clips
+  Promise.all(clipNums.map(getClipName))
+    .then(clipNames => {
+      console.log('clipNames='+clipNames);
+    });
 });
 
 // Load the http module to create an http server.
