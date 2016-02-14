@@ -3,7 +3,7 @@ var Max4Node = require('max4node');
 var max = new Max4Node();
 max.bind();
 
-var clipsLength = undefined;
+var clipsLength;
 var clipNames = [];
 var clipPlayingPosition;
 
@@ -37,7 +37,6 @@ max.observe({
   property: 'playing_position'
 })
 .on('value', function(val) {
-  console.log('Playing position: ' + val);
   clipPlayingPosition = val;
 });
 
