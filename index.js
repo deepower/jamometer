@@ -23,7 +23,7 @@ function getTracksCount() {
 }
 
 getTracksCount()
-  .then(function(tracksCount) {
+  .then(tracksCount => {
     let trackNums = [];
     for (let i = 0; i < tracksCount; i++) {
       trackNums.push(i);
