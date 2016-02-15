@@ -36,7 +36,6 @@ getTracksCount()
         liveTrackID = i;
       }
     }
-    console.log(liveTrackID);
     return liveTrackID;
   })
   .then(getClipsCount)
