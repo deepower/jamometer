@@ -28,30 +28,29 @@ getTracksCount()
     for (let i = 0; i < tracksCount; i++) {
       trackNums.push(i);
     }
-
-    // Let's get all names of clips
-    Promise.all(trackNums.map(getTrackName))
-      .then(trackNames => {
-        for (var i = 0; i < trackNames.length; i++) {
-          if (trackNames[i] == jamometerTrack) {
-            liveTrackID = i;
-          }
-        }
-      })
-      .then(getClipsCount)
-      .then(function(clipsLength) {
-        let clipNums = [];
-        for (let i = 0; i < clipsLength; i++) {
-          clipNums.push(i);
-        }
-
-        // Let's get all names of clips
-        Promise.all(clipNums.map(getClipName))
-          .then(clipNames => {
-            console.log('clipNames='+clipNames);
-          });
-      });
-  });
+    return Promise.all(trackNums.map(getTrackName));
+  })
+  .then(trackNames => {
+    for (var i = 0; i < trackNames.length; i++) {
+      if (trackNames[i] == jamometerTrack) {
+        liveTrackID = i;
+      }
+    }
+    console.log(liveTrackID);
+    return liveTrackID;
+  })
+  .then(getClipsCount)
+  .then(clipsLength => {
+    let clipNums = [];
+    for (let i = 0; i < clipsLength; i++) {
+      clipNums.push(i);
+    }
+    return Promise.all(clipNums.map(getClipName));
+  })
+  .then(clipNames => {
+    console.log('clipNames='+clipNames);
+    return clipNames;
+  })
 
 function getClipName(clipId) {
   return max.promise().get({
