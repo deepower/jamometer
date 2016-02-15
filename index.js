@@ -6,6 +6,8 @@ var max = new Max4Node();
 max.bind();
 
 var liveTrackID;
+
+// Where to look for clip names in Live
 const jamometerTrack = 'Jamometer';
 
 function getTrackName(trackId) {
