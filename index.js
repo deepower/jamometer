@@ -50,6 +50,10 @@ getTracksCount()
     console.log('clipNames='+clipNames);
     return clipNames;
   })
+  .then(getPlayingClipIndex)
+  .then(clipId => {
+    console.log('playing clip number '+clipId);
+  })
 
 function getClipName(clipId) {
   return max.promise().get({
@@ -62,6 +66,13 @@ function getClipsCount(trackId) {
   return max.promise().count({
     path: 'live_set tracks '+liveTrackID,
     property: 'clip_slots'
+  })
+}
+
+function getPlayingClipIndex() {
+  return max.promise().get({
+    path: 'live_set tracks '+liveTrackID,
+    property: 'playing_slot_index'
   })
 }
 
